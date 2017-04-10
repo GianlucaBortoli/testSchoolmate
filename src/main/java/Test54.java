@@ -2,57 +2,52 @@ import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static common.settings.*;
 
-/**
- * Created by gian on 10/04/17.
- */
-public class test54 {
+
+public class Test54 {
     private WebTester tester;
-    private String previousValue = null;
+    private String oldValue = null;
 
     @Before
     public void prepare(){
-        tester = new WebTester();
-        tester.setBaseUrl("http://192.168.53.146");
+        tester = createWebTester();
     }
 
     @Test
     public void test(){
         tester.beginAt("index.php");
-        tester.setTextField("username", "schoolmate");
-        tester.setTextField("password", "schoolmate");
+        setUserPwd(tester);
         tester.submit();
 
         tester.assertMatch("Manage Classes");
         tester.clickLinkWithText("School");
 
         tester.assertMatch("Manage School Information");
-        previousValue = tester.getElementByXPath("html//textarea[@name='sitetext']").getTextContent();
-        tester.setTextField("sitetext", "original message "
-                + "<a href=www.unitn.it>malicious link</a>");
+        oldValue = tester.getElementByXPath("html//textarea[@name='sitetext']")
+                .getTextContent();
+        tester.setTextField("sitetext", oldValue + getMylink());
         tester.clickButtonWithText(" Update ");
 
         tester.assertMatch("Manage School Information");
         tester.clickLinkWithText("Log Out");
 
-        tester.assertLinkNotPresentWithExactText("malicious link");
+        tester.assertLinkNotPresentWithExactText(getMyLinkName());
     }
 
     @After
     public void cleanup(){
-        if (previousValue != null) {
+        if (oldValue != null) {
             tester.beginAt("index.php");
-            tester.setTextField("username", "schoolmate");
-            tester.setTextField("password", "schoolmate");
+            setUserPwd(tester);
             tester.submit();
 
             tester.assertMatch("Manage Classes");
             tester.clickLinkWithText("School");
 
             tester.assertMatch("Manage School Information");
-            tester.setTextField("sitetext", previousValue);
+            tester.setTextField("sitetext", oldValue);
             tester.clickButtonWithText(" Update ");
         }
     }
-
 }
