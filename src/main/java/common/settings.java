@@ -23,8 +23,17 @@ public class settings {
         return tester;
     }
 
-    public static void setUserPwd(WebTester t) {
+    public static void loginAsAdmin(WebTester t) {
+        t.beginAt("index.php");
         t.setTextField("username", "test");
         t.setTextField("password", "test");
+        t.submit();
+    }
+
+    public static void loginAsTeacher(WebTester t) {
+        t.beginAt("index.php");
+        t.setTextField("username", "maths");
+        t.setTextField("password", "maths");
+        t.submit();
     }
 }

@@ -2,6 +2,7 @@ import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static common.settings.*;
 
 
@@ -16,9 +17,7 @@ public class Test54 {
 
     @Test
     public void test(){
-        tester.beginAt("index.php");
-        setUserPwd(tester);
-        tester.submit();
+        loginAsAdmin(tester);
 
         tester.assertMatch("Manage Classes");
         tester.clickLinkWithText("School");
@@ -38,9 +37,7 @@ public class Test54 {
     @After
     public void cleanup(){
         if (oldValue != null) {
-            tester.beginAt("index.php");
-            setUserPwd(tester);
-            tester.submit();
+            loginAsAdmin(tester);
 
             tester.assertMatch("Manage Classes");
             tester.clickLinkWithText("School");
