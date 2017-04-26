@@ -3,8 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static common.settings.*;
-//import static common.utils.*;
-
+import static common.utils.*;
 
 public class Test11_selectclass {
     private WebTester tester;
@@ -27,10 +26,11 @@ public class Test11_selectclass {
 
         tester.clickLinkWithText("Assignments");
         tester.assertMatch("Manage Assignments");
+
         tester.setWorkingForm("assignments");
         tester.setHiddenField("selectclass", "1 '>" + getMylink()
                 + "<br '");
-        //addSubmitButton("//form[@name='assignments']", tester);
+        addSubmitButton("//form[@name='assignments']", tester);
         tester.submit();
 
         tester.assertLinkNotPresentWithText(getMyLinkName());

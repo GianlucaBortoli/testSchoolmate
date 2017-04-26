@@ -5,7 +5,8 @@
   die("Invalid User!");
  }
 
- $page2 = $_POST["page2"];
+ $page2 = intval($_POST["page2"]);
+ $selectclass = htmlspecialchars($_POST[selectclass]);
 
  print("<script language='JavaScript'>
 
@@ -85,7 +86,7 @@ print("   <a class='menu' href='javascript: logoutteacher();' onMouseover=\"wind
    <input type='hidden' name='page2' value='$page2'>
    <input type='hidden' name='logout'>
    <input type='hidden' name='page' value='$page'>
-   <input type='hidden' name='selectclass' value='$_POST[selectclass]' />
+   <input type='hidden' name='selectclass' value='$selectclass' />
  </form>
   </td>
   <td class='b' width='10' background='./images/left.gif'><div style='letter-spacing: 1pt;'>&nbsp;</div></td>

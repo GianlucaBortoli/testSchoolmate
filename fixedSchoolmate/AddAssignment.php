@@ -1,4 +1,5 @@
 <?php
+ $selectclass = htmlspecialchars($_POST[selectclass]);
 
  print("<h1>Add New Assignment</h1>
 
@@ -32,7 +33,7 @@
   <input type='hidden' name='addassignment' value=''>
   <input type='hidden' name='page2' value='$page2'>
   <input type='hidden' name='logout'>
-  <input type='hidden' name='selectclass' value='$_POST[selectclass]' />
+  <input type='hidden' name='selectclass' value='$selectclass' />
   <input type='hidden' name='page' value='$page'>
 
  </form>

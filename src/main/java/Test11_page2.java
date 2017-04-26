@@ -25,7 +25,6 @@ public class Test11_page2 {
 
         tester.clickLinkWithText("Assignments");
         tester.assertMatch("Manage Assignments");
-        tester.setWorkingForm("assignments");
 
         tester.setWorkingForm("assignments");
         tester.setHiddenField("page2", "4 '>" + getMylink()
