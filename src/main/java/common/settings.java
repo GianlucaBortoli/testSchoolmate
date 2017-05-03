@@ -36,4 +36,18 @@ public class settings {
         t.setTextField("password", "maths");
         t.submit();
     }
+
+    public static void loginAsStudent(WebTester t) {
+        t.beginAt("index.php");
+        t.setTextField("username", "student1");
+        t.setTextField("password", "student1");
+        t.submit();
+    }
+
+    public static void loginAsParent(WebTester t) {
+        t.beginAt("index.php");
+        t.setTextField("username", "parent1");
+        t.setTextField("password", "parent1");
+        t.submit();
+    }
 }

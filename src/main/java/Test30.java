@@ -3,9 +3,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static common.settings.*;
-import static common.utils.*;
+import static common.utils.addSubmitButton;
 
-public class Test11_selectclass {
+public class Test30 {
     private WebTester tester;
 
     @Before
@@ -15,21 +15,21 @@ public class Test11_selectclass {
 
     @Test
     public void test() {
-        loginAsTeacher(tester);
-        tester.assertMatch("maths damaths's Classes");
+        loginAsStudent(tester);
+        tester.assertMatch("student1 dastud1's Classes");
+
+        tester.clickLinkWithText("Classes");
+        tester.assertMatch("student1 dastud1's Classes");
         tester.selectOption("semester", "SecondSemester");
         tester.selectOption("semester", "FirstSemester");
 
         tester.clickLinkWithText("sec_test");
         tester.assertMatch("Class Settings");
 
-        tester.clickLinkWithText("Assignments");
-        tester.assertMatch("Manage Assignments");
-
-        tester.setWorkingForm("assignments");
+        tester.setWorkingForm("student");
         tester.setHiddenField("selectclass", "1 '>" + getMylink()
                 + "<br '");
-        addSubmitButton("//form[@name='assignments']", tester);
+        addSubmitButton("//form[@name='student']", tester);
         tester.submit();
 
         tester.assertLinkNotPresentWithText(getMyLinkName());

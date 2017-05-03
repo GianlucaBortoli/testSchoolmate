@@ -3,9 +3,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static common.settings.*;
-import static common.utils.*;
+import static common.utils.addSubmitButton;
 
-public class Test11_selectclass {
+public class Test37_selectclass {
     private WebTester tester;
 
     @Before
@@ -27,9 +27,14 @@ public class Test11_selectclass {
         tester.assertMatch("Manage Assignments");
 
         tester.setWorkingForm("assignments");
+        tester.checkCheckbox("delete[]", "8");
+        tester.clickButtonWithText("Edit");
+        tester.assertMatch("Edit Assignment");
+
+        tester.setWorkingForm("editassignment");
         tester.setHiddenField("selectclass", "1 '>" + getMylink()
                 + "<br '");
-        addSubmitButton("//form[@name='assignments']", tester);
+        addSubmitButton("//form[@name='editassignment']", tester);
         tester.submit();
 
         tester.assertLinkNotPresentWithText(getMyLinkName());

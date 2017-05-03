@@ -5,7 +5,7 @@ import org.junit.Test;
 import static common.settings.*;
 import static common.utils.*;
 
-public class Test11_selectclass {
+public class Test11_page {
     private WebTester tester;
 
     @Before
@@ -16,7 +16,7 @@ public class Test11_selectclass {
     @Test
     public void test() {
         loginAsTeacher(tester);
-        tester.assertMatch("maths damaths's Classes");
+        tester.assertMatch("maths damaths\'s Classes");
         tester.selectOption("semester", "SecondSemester");
         tester.selectOption("semester", "FirstSemester");
 
@@ -26,12 +26,16 @@ public class Test11_selectclass {
         tester.clickLinkWithText("Assignments");
         tester.assertMatch("Manage Assignments");
 
-        tester.setWorkingForm("assignments");
-        tester.setHiddenField("selectclass", "1 '>" + getMylink()
+        tester.clickButtonWithText("Add");
+        tester.assertMatch("Add New Assignment");
+
+        tester.setWorkingForm("addassignment");
+        tester.setHiddenField("page", "2 '>" + getMylink()
                 + "<br '");
-        addSubmitButton("//form[@name='assignments']", tester);
+        addSubmitButton("//form[@name='addassignment']", tester);
         tester.submit();
 
+        tester.assertMatch("Add New Assignment");
         tester.assertLinkNotPresentWithText(getMyLinkName());
     }
 }
