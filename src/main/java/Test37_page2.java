@@ -5,7 +5,7 @@ import org.junit.Test;
 import static common.settings.*;
 import static common.utils.addSubmitButton;
 
-public class Test37_page {
+public class Test37_page2 {
     private WebTester tester;
 
     @Before
@@ -32,7 +32,7 @@ public class Test37_page {
         tester.assertMatch("Edit Assignment");
 
         tester.setWorkingForm("editassignment");
-        tester.setHiddenField("page", "2 '>" + getMylink()
+        tester.setHiddenField("page2", "5 '>" + getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='editassignment']", tester);
         tester.submit();

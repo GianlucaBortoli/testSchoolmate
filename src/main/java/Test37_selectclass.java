@@ -27,7 +27,7 @@ public class Test37_selectclass {
         tester.assertMatch("Manage Assignments");
 
         tester.setWorkingForm("assignments");
-        tester.checkCheckbox("delete[]", "8");
+        tester.checkCheckbox("delete[]");
         tester.clickButtonWithText("Edit");
         tester.assertMatch("Edit Assignment");
 

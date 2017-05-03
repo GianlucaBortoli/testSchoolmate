@@ -5,7 +5,7 @@ import org.junit.Test;
 import static common.settings.*;
 import static common.utils.addSubmitButton;
 
-public class Test37_page {
+public class Test37_delete {
     private WebTester tester;
 
     @Before
@@ -27,16 +27,12 @@ public class Test37_page {
         tester.assertMatch("Manage Assignments");
 
         tester.setWorkingForm("assignments");
+        tester.getElementByXPath("//input[@type='checkbox' and @value='9']")
+                .setAttribute("value", "1 -- ' />" + getMylink());
         tester.checkCheckbox("delete[]");
+
         tester.clickButtonWithText("Edit");
         tester.assertMatch("Edit Assignment");
-
-        tester.setWorkingForm("editassignment");
-        tester.setHiddenField("page", "2 '>" + getMylink()
-                + "<br '");
-        addSubmitButton("//form[@name='editassignment']", tester);
-        tester.submit();
-
         tester.assertLinkNotPresentWithText(getMyLinkName());
     }
 }
