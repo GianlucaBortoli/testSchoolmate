@@ -5,25 +5,37 @@ import org.junit.Test;
 import static common.settings.*;
 import static common.utils.addSubmitButton;
 
-public class Test30 {
+public class Test165 {
     private WebTester tester;
 
     @Before
     public void prepare() {
         tester = createWebTester();
+        loginAsStudent(tester);
+        tester.assertMatch("student1 dastud1's Classes");
+        tester.setWorkingForm("student");
     }
 
     @Test
-    public void test() {
-        loginAsStudent(tester);
-        tester.assertMatch("student1 dastud1's Classes");
-        tester.clickLinkWithText("Classes");
-        tester.assertMatch("student1 dastud1's Classes");
-        tester.selectOption("semester", "SecondSemester");
-        tester.selectOption("semester", "FirstSemester");
-        tester.clickLinkWithText("sec_test");
-        tester.assertMatch("Class Settings");
-        tester.setWorkingForm("student");
+    public void testPage() {
+        tester.setHiddenField("page", "4 '>" + getMylink()
+                + "<br '");
+        addSubmitButton("//form[@name='student']", tester);
+        tester.submit();
+        tester.assertLinkNotPresentWithText(getMyLinkName());
+    }
+
+    @Test
+    public void testPageTwo() {
+        tester.setHiddenField("page2", "1 '>" + getMylink()
+                + "<br '");
+        addSubmitButton("//form[@name='student']", tester);
+        tester.submit();
+        tester.assertLinkNotPresentWithText(getMyLinkName());
+    }
+
+    @Test
+    public void testSelectClass() {
         tester.setHiddenField("selectclass", "1 '>" + getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='student']", tester);

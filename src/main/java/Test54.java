@@ -18,19 +18,15 @@ public class Test54 {
     @Test
     public void test(){
         loginAsAdmin(tester);
-
         tester.assertMatch("Manage Classes");
         tester.clickLinkWithText("School");
-
         tester.assertMatch("Manage School Information");
         oldValue = tester.getElementByXPath("html//textarea[@name='sitetext']")
                 .getTextContent();
         tester.setTextField("sitetext", oldValue + getMylink());
         tester.clickButtonWithText(" Update ");
-
         tester.assertMatch("Manage School Information");
         tester.clickLinkWithText("Log Out");
-
         tester.assertLinkNotPresentWithExactText(getMyLinkName());
     }
 
@@ -38,10 +34,8 @@ public class Test54 {
     public void cleanup(){
         if (oldValue != null) {
             loginAsAdmin(tester);
-
             tester.assertMatch("Manage Classes");
             tester.clickLinkWithText("School");
-
             tester.assertMatch("Manage School Information");
             tester.setTextField("sitetext", oldValue);
             tester.clickButtonWithText(" Update ");
