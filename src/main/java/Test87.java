@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class Test87 {
     @Before
     public void prepare() {
         tester = createWebTester();
-        loginAsParent(tester);
+        utils.loginAsParent(tester);
         tester.assertMatch("Students of parent1 daparent1");
         tester.clickLinkWithText("student1 dastud1");
         tester.assertMatch("student1 dastud1's Classes");
@@ -24,28 +25,28 @@ public class Test87 {
 
     @Test
     public void testPage() {
-        tester.setHiddenField("page", "5 '>" + getMylink()
+        tester.setHiddenField("page", "5 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='classes']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testPageTwo() {
-        tester.setHiddenField("page2", "1 '>" + getMylink()
+        tester.setHiddenField("page2", "1 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='classes']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testSelectClass() {
-        tester.setHiddenField("selectclass", "1 '>" + getMylink()
+        tester.setHiddenField("selectclass", "1 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='classes']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }

@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class Test37 {
     @Before
     public void prepare() {
         tester = createWebTester();
-        loginAsTeacher(tester);
+        utils.loginAsTeacher(tester);
         tester.assertMatch("maths damaths's Classes");
         tester.selectOption("semester", "SecondSemester");
         tester.selectOption("semester", "FirstSemester");
@@ -28,11 +29,11 @@ public class Test37 {
         tester.clickButtonWithText("Edit");
         tester.assertMatch("Edit Assignment");
         tester.setWorkingForm("editassignment");
-        tester.setHiddenField("page", "2 '>" + getMylink()
+        tester.setHiddenField("page", "2 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='editassignment']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
@@ -42,22 +43,22 @@ public class Test37 {
         tester.clickButtonWithText("Edit");
         tester.assertMatch("Edit Assignment");
         tester.setWorkingForm("editassignment");
-        tester.setHiddenField("page2", "5 '>" + getMylink()
+        tester.setHiddenField("page2", "5 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='editassignment']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testDelete() {
         tester.setWorkingForm("assignments");
         tester.getElementByXPath("//input[@type='checkbox' and @value='9']")
-                .setAttribute("value", "1 -- ' />" + getMylink());
+                .setAttribute("value", "1 -- ' />" + utils.getMylink());
         tester.checkCheckbox("delete[]");
         tester.clickButtonWithText("Edit");
         tester.assertMatch("Edit Assignment");
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
@@ -67,10 +68,10 @@ public class Test37 {
         tester.clickButtonWithText("Edit");
         tester.assertMatch("Edit Assignment");
         tester.setWorkingForm("editassignment");
-        tester.setHiddenField("selectclass", "1 '>" + getMylink()
+        tester.setHiddenField("selectclass", "1 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='editassignment']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }

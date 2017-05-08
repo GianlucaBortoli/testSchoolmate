@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class Test44 {
     @Before
     public void prepare() {
         tester = createWebTester();
-        loginAsAdmin(tester);
+        utils.loginAsAdmin(tester);
         tester.assertMatch("Manage Classes");
         tester.clickLinkWithText("Terms");
         tester.assertMatch("Manage Terms");
@@ -21,26 +22,26 @@ public class Test44 {
 
     @Test
     public void testPage() {
-        tester.setHiddenField("page", "1 '>" + getMylink() + "<br '");
+        tester.setHiddenField("page", "1 '>" + utils.getMylink() + "<br '");
         addSubmitButton("//form[@name='terms']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testPageTwo() {
-        tester.setHiddenField("page2", "6 '>" + getMylink() + "<br '");
+        tester.setHiddenField("page2", "6 '>" + utils.getMylink() + "<br '");
         addSubmitButton("//form[@name='terms']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testDelete() {
         tester.getElementByXPath("//input[@type='checkbox' and @value='1']")
-                .setAttribute("value", "1 -- ' />" + getMylink());
+                .setAttribute("value", "1 -- ' />" + utils.getMylink());
         tester.checkCheckbox("delete[]");
         tester.clickButtonWithText("Edit");
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }

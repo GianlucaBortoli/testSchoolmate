@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class Test138 {
     @Before
     public void prepare() {
         tester = createWebTester();
-        loginAsStudent(tester);
+        utils.loginAsStudent(tester);
         tester.assertMatch("student1 dastud1's Classes");
         tester.selectOption("semester", "SecondSemester");
     }
@@ -19,19 +20,19 @@ public class Test138 {
     @Test
     public void testPage() {
         tester.setWorkingForm("classes");
-        tester.setHiddenField("page", "4 '>" + getMylink() + "<br '");
+        tester.setHiddenField("page", "4 '>" + utils.getMylink() + "<br '");
         tester.clickLinkWithText("Classes");
         tester.assertMatch("student1 dastud1's Classes");
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testPageTwo() {
         tester.setWorkingForm("student");
-        tester.setHiddenField("page2", "0 '>" + getMylink() + "<br '");
+        tester.setHiddenField("page2", "0 '>" + utils.getMylink() + "<br '");
         addSubmitButton("//form[@name='student']", tester);
         tester.submit();
         tester.assertMatch("student1 dastud1's Classes");
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }

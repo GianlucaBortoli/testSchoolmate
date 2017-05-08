@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class Test76 {
     @Before
     public void prepare() {
         tester = createWebTester();
-        loginAsTeacher(tester);
+        utils.loginAsTeacher(tester);
         tester.assertMatch("maths damaths\'s Classes");
         tester.selectOption("semester", "SecondSemester");
         tester.selectOption("semester", "FirstSemester");
@@ -25,46 +26,46 @@ public class Test76 {
 
     @Test
     public void testPage() {
-        tester.setHiddenField("page", "2 '>" + getMylink() + "<br '");
+        tester.setHiddenField("page", "2 '>" + utils.getMylink() + "<br '");
         addSubmitButton("//form[@name='grades']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testPageTwo() {
-        tester.setHiddenField("page2", "3 '>" + getMylink() + "<br '");
+        tester.setHiddenField("page2", "3 '>" + utils.getMylink() + "<br '");
         addSubmitButton("//form[@name='grades']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testDelete() {
         tester.getElementByXPath("//input[@type='checkbox' and @value='1']")
-                .setAttribute("value", "1 -- ' />" + getMylink());
+                .setAttribute("value", "1 -- ' />" + utils.getMylink());
         tester.checkCheckbox("delete[]");
         tester.clickButtonWithText("Edit");
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testAssignment() {
         tester.clickButtonWithText("Edit");
         tester.setWorkingForm("editgrade");
-        tester.setHiddenField("assignment", "9 '>" + getMylink()
+        tester.setHiddenField("assignment", "9 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='editgrade']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
     public void testSelectClass() {
-        tester.setHiddenField("selectclass", "1 '>" + getMylink()
+        tester.setHiddenField("selectclass", "1 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='grades']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }

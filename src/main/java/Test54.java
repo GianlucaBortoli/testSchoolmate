@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.After;
 import org.junit.Before;
@@ -17,23 +18,23 @@ public class Test54 {
 
     @Test
     public void test(){
-        loginAsAdmin(tester);
+        utils.loginAsAdmin(tester);
         tester.assertMatch("Manage Classes");
         tester.clickLinkWithText("School");
         tester.assertMatch("Manage School Information");
         oldValue = tester.getElementByXPath("html//textarea[@name='sitetext']")
                 .getTextContent();
-        tester.setTextField("sitetext", oldValue + getMylink());
+        tester.setTextField("sitetext", oldValue + utils.getMylink());
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
         tester.clickLinkWithText("Log Out");
-        tester.assertLinkNotPresentWithExactText(getMyLinkName());
+        tester.assertLinkNotPresentWithExactText(utils.getMyLinkName());
     }
 
     @After
     public void cleanup(){
         if (oldValue != null) {
-            loginAsAdmin(tester);
+            utils.loginAsAdmin(tester);
             tester.assertMatch("Manage Classes");
             tester.clickLinkWithText("School");
             tester.assertMatch("Manage School Information");

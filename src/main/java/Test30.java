@@ -1,3 +1,4 @@
+import common.utils;
 import net.sourceforge.jwebunit.junit.WebTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class Test30 {
 
     @Test
     public void test() {
-        loginAsStudent(tester);
+        utils.loginAsStudent(tester);
         tester.assertMatch("student1 dastud1's Classes");
         tester.clickLinkWithText("Classes");
         tester.assertMatch("student1 dastud1's Classes");
@@ -24,10 +25,10 @@ public class Test30 {
         tester.clickLinkWithText("sec_test");
         tester.assertMatch("Class Settings");
         tester.setWorkingForm("student");
-        tester.setHiddenField("selectclass", "1 '>" + getMylink()
+        tester.setHiddenField("selectclass", "1 '>" + utils.getMylink()
                 + "<br '");
         addSubmitButton("//form[@name='student']", tester);
         tester.submit();
-        tester.assertLinkNotPresentWithText(getMyLinkName());
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }
