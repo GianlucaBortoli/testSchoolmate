@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.54, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: schoolmate
+-- Host: localhost    Database: test_prod
 -- ------------------------------------------------------
 -- Server version	5.5.54-0+deb8u1
 
@@ -311,7 +311,7 @@ CREATE TABLE `schoolinfo` (
 
 LOCK TABLES `schoolinfo` WRITE;
 /*!40000 ALTER TABLE `schoolinfo` DISABLE KEYS */;
-INSERT INTO `schoolinfo` VALUES ('School Name','','','This is a login page',' <a href=\"www.unitn.it\">mylink</a>',NULL,0,0,0.000,0.000,0.000,0.000,0.000);
+INSERT INTO `schoolinfo` VALUES ('School Name','Via Sommarive Povo','123456789','This is a login page','Better safe than sorry',NULL,2,5,0.000,0.000,0.000,0.000,0.000);
 /*!40000 ALTER TABLE `schoolinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +331,7 @@ CREATE TABLE `semesters` (
   `enddate` date NOT NULL DEFAULT '0000-00-00',
   `type` enum('1','2') DEFAULT NULL,
   PRIMARY KEY (`semesterid`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,7 +340,7 @@ CREATE TABLE `semesters` (
 
 LOCK TABLES `semesters` WRITE;
 /*!40000 ALTER TABLE `semesters` DISABLE KEYS */;
-INSERT INTO `semesters` VALUES (1,'1','FirstSemester','0000-00-00','0000-00-00','0000-00-00',NULL),(2,'2','SecondSemester','0000-00-00','0000-00-00','0000-00-00',NULL),(11,'10','a','2020-01-00','2020-02-00','2020-03-00','1'),(10,'10','a','2020-01-00','2020-02-00','2020-03-00','1'),(9,'9','a','2020-01-00','2020-02-00','2020-03-00','1'),(8,'8','a','2020-01-00','2020-02-00','2020-03-00','1'),(12,'10','a','2020-01-00','2020-02-00','2020-03-00','1');
+INSERT INTO `semesters` VALUES (1,'1','FirstSemester','0000-00-00','0000-00-00','0000-00-00',NULL),(2,'2','SecondSemester','0000-00-00','0000-00-00','0000-00-00',NULL);
 /*!40000 ALTER TABLE `semesters` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -412,7 +412,7 @@ CREATE TABLE `terms` (
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`termid`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,7 +421,7 @@ CREATE TABLE `terms` (
 
 LOCK TABLES `terms` WRITE;
 /*!40000 ALTER TABLE `terms` DISABLE KEYS */;
-INSERT INTO `terms` VALUES (1,'FirstTerm','0000-00-00','0000-00-00'),(2,'SecondTerm','0000-00-00','0000-00-00'),(10,'<a href>t</a>','2020-01-00','2020-02-00'),(9,'<a href>t</a>','2020-01-00','2020-02-00'),(8,'<a href>t</a>','2020-01-00','2020-02-00'),(7,'<a href>t</a>','2020-01-00','2020-02-00'),(11,'<a href>t</a>','2020-01-00','2020-02-00'),(12,'<a href>t</a>','2020-01-00','2020-02-00');
+INSERT INTO `terms` VALUES (1,'FirstTerm','0000-00-00','0000-00-00'),(2,'SecondTerm','0000-00-00','0000-00-00');
 /*!40000 ALTER TABLE `terms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -461,4 +461,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-10  0:46:39
+-- Dump completed on 2017-05-10  4:14:50
