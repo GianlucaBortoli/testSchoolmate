@@ -1,6 +1,8 @@
 import common.restore;
 import common.utils;
+import net.sourceforge.htmlunit.corejs.javascript.tools.debugger.Dim;
 import net.sourceforge.jwebunit.junit.WebTester;
+import org.apache.xpath.SourceTree;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,34 +43,34 @@ public class Test92 {
 
     @Test
     public void testAddress() {
-        tester.setTextField("schooladdress","''><a href=#>a</a>");
+        tester.setTextField("schooladdress", "''><a href=#>link</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithExactText("a");
+        tester.assertLinkNotPresentWithText("link");
     }
 
     @Test
     public void testPhone() {
-        tester.setTextField("schoolphone", "''><a href=#>a</a>");
+        tester.setTextField("schoolphone", "''><a href=#>z</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithExactText("a");
+        tester.assertLinkNotPresentWithText("z");
     }
 
     @Test
     public void testNumPeriods() {
-        tester.setTextField("numperiods", "''><a href=#>a</a>");
+        tester.setTextField("numperiods", "''><a href=#>z</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithExactText("a");
+        tester.assertLinkNotPresentWithText("z");
     }
 
     @Test
     public void testNumSemesters() {
-        tester.setTextField("numsemesters", "''><a href=#>a</a>");
+        tester.setTextField("numsemesters", "''><a href=#>z</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithExactText("a");
+        tester.assertLinkNotPresentWithText("z");
     }
 
     @After

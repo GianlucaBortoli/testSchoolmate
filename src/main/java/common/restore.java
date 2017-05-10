@@ -25,6 +25,7 @@ public class restore {
         tester.setTextField("sitemessage", sitemessage);
         tester.setTextField("sitetext", sitetext);
         tester.assertMatch("Manage School Information");
+        tester.clickButtonWithText(" Update ");
     }
 
     public static void terms(WebTester tester) {

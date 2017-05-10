@@ -34,10 +34,11 @@ public class Test37 {
                     + "<br '");
             addSubmitButton("//form[@name='editassignment']", tester);
             tester.submit();
-            tester.assertLinkNotPresentWithText(utils.getMyLinkName());
         } catch (java.lang.AssertionError err) {
             System.out.println("...");
+            System.out.println(err);
         }
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
@@ -52,11 +53,10 @@ public class Test37 {
                     + "<br '");
             addSubmitButton("//form[@name='editassignment']", tester);
             tester.submit();
-            tester.assertLinkNotPresentWithText(utils.getMyLinkName());
         } catch (java.lang.AssertionError err) {
             System.out.println("...");
         }
-
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
@@ -68,10 +68,10 @@ public class Test37 {
             tester.checkCheckbox("delete[]");
             tester.clickButtonWithText("Edit");
             tester.assertMatch("Edit Assignment");
-            tester.assertLinkNotPresentWithText(utils.getMyLinkName());
         } catch (java.lang.AssertionError err) {
             System.out.println("...");
         }
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 
     @Test
@@ -86,9 +86,9 @@ public class Test37 {
                     + "<br '");
             addSubmitButton("//form[@name='editassignment']", tester);
             tester.submit();
-            tester.assertLinkNotPresentWithText(utils.getMyLinkName());
         } catch (java.lang.AssertionError err) {
             System.out.println("...");
         }
+        tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
 }
