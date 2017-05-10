@@ -41,10 +41,10 @@ public class Test92 {
 
     @Test
     public void testAddress() {
-        tester.setTextField("schooladdress","''><a href=#>mal</a>");
+        tester.setTextField("schooladdress","''><a href=#>a</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("mal");
+        tester.assertLinkNotPresentWithText("a");
     }
 
     @Test

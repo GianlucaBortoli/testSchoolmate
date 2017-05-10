@@ -38,9 +38,7 @@ public class Test44 {
 
     @Test
     public void testDelete() {
-        tester.getElementByXPath("//input[@type='checkbox' and @value='1']")
-                .setAttribute("value", "1 -- ' />" + utils.getMylink());
-        tester.checkCheckbox("delete[]");
+        tester.setTextField("delete[]", "1 '>" + utils.getMylink() + "<br '");
         tester.clickButtonWithText("Edit");
         tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
