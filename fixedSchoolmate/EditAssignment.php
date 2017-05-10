@@ -3,10 +3,10 @@
 
  // Get the information for the current assignment //
  $query = mysql_query("SELECT * FROM assignments WHERE assignmentid = $id[0]")
-   or die("EditAssignment.php: Unable to retrieve the information about the assignment to edit - ".mysql_error());
+   or die("$id - $_POST - EditAssignment.php: Unable to retrieve the information about the assignment to edit - ".mysql_error());
 
  $assignment = mysql_fetch_row($query);
- 
+
  print("<h1>Edit Assignment</h1>
 
   <form name='editassignment' action='./index.php' method='POST'>

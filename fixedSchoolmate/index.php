@@ -1,4 +1,13 @@
 <?php
+
+ foreach ($_POST as $k => $val) {
+   $_POST[$k] = htmlentities($val, ENT_QUOTES, "UTF-8");
+   //$strings = array("page", "page2", );
+   //if (in_array($k, $strings)) {
+
+   //}
+ }
+
  session_start();
  /*
   **********************************

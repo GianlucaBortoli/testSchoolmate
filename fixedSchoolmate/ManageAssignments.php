@@ -1,10 +1,9 @@
 <?php
- $selectclass = htmlspecialchars($_POST[selectclass]);
 
  require_once("DBFunctions.php");
 
  // Get the coursename //
- $query = mysql_query("SELECT coursename FROM courses WHERE courseid = '$selectclass'") or die("ManageAssignments.php: Unable to get the course name - ".mysql_error());
+ $query = mysql_query("SELECT coursename FROM courses WHERE courseid = '$_POST[selectclass]'") or die("ManageAssignments.php: Unable to get the course name - ".mysql_error());
  $coursename = mysql_result($query,0);
 
  ###############
@@ -25,7 +24,7 @@
    $ids = mysql_fetch_row($query);
 
    // If all is good, insert the new assignment into the database //
-   $query = mysql_query("INSERT INTO assignments VALUES('', '$selectclass', '$ids[0]', '$ids[1]', '$_POST[title]', '$_POST[total]', '$_POST[assigneddate]', '$_POST[duedate]', '$_POST[task]')")
+   $query = mysql_query("INSERT INTO assignments VALUES('', '$_POST[selectclass]', '$ids[0]', '$ids[1]', '$_POST[title]', '$_POST[total]', '$_POST[assigneddate]', '$_POST[duedate]', '$_POST[task]')")
 	 or die("ManageAssignments.php: Unable to insert new assignment - " . mysql_error());
 
    // Add the points for this assignment to the total points for the class //
@@ -35,9 +34,9 @@
    $assigndate = strtotime($_POST['assigneddate']);
 
    if($assigndate < $middate)
-	 $query = mysql_query("UPDATE courses SET q1points = (q1points + $_POST[total]), totalpoints = (totalpoints + $_POST[total]) WHERE courseid = $selectclass");
+	 $query = mysql_query("UPDATE courses SET q1points = (q1points + $_POST[total]), totalpoints = (totalpoints + $_POST[total]) WHERE courseid = $_POST[selectclass]");
    else
-	 $query = mysql_query("UPDATE courses SET q2points = (q2points + $_POST[total]), totalpoints = (totalpoints + $_POST[total]) WHERE courseid = $selectclass");
+	 $query = mysql_query("UPDATE courses SET q2points = (q2points + $_POST[total]), totalpoints = (totalpoints + $_POST[total]) WHERE courseid = $_POST[selectclass]");
   }
  }
 
@@ -53,7 +52,7 @@
 	or die("ManageAssignments.php: Unable to update the assignment information - ".mysql_error());
 
   // Update the amount of points the student has accumulated for this class //
-  $query = mysql_query("SELECT semesterid FROM courses WHERE courseid = $selectclass");
+  $query = mysql_query("SELECT semesterid FROM courses WHERE courseid = $_POST[selectclass]");
   $id = mysql_fetch_row($query);
 
   $query = mysql_query("SELECT midtermdate FROM semesters WHERE semesterid = $id[0]");
@@ -66,16 +65,16 @@
   if($duedate < $middate)
   {
    if($wasdate < $middate)
-	$query = mysql_query("UPDATE courses SET q1points=(q1points + $_POST[total] - $_POST[wastotal]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $selectclass");
+	$query = mysql_query("UPDATE courses SET q1points=(q1points + $_POST[total] - $_POST[wastotal]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $_POST[selectclass]");
    else
-	$query = mysql_query("UPDATE courses SET q2points=(q2points - $_POST[wastotal]), q1points=(q1points + $_POST[total]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $selectclass");
+	$query = mysql_query("UPDATE courses SET q2points=(q2points - $_POST[wastotal]), q1points=(q1points + $_POST[total]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $_POST[selectclass]");
   }
   else
   {
    if($wasdate < $middate)
-	$query = mysql_query("UPDATE courses SET q1points=(q1points - $_POST[wastotal]), q2points=(q2points + $_POST[total]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $selectclass");
+	$query = mysql_query("UPDATE courses SET q1points=(q1points - $_POST[wastotal]), q2points=(q2points + $_POST[total]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $_POST[selectclass]");
    else
-	$query = mysql_query("UPDATE courses SET q2points=(q2points + $_POST[total] - $_POST[wastotal]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $selectclass");
+	$query = mysql_query("UPDATE courses SET q2points=(q2points + $_POST[total] - $_POST[wastotal]), totalpoints=(totalpoints + $_POST[total] - $_POST[wastotal]) WHERE courseid = $_POST[selectclass]");
   }
  }
 
@@ -95,7 +94,7 @@
    $q = mysql_query("SELECT totalpoints, duedate FROM assignments WHERE assignmentid = $delete[$i]");
    $total = mysql_fetch_row($q);
 
-   $q = mysql_query("SELECT semesterid FROM courses WHERE courseid = $selectclass");
+   $q = mysql_query("SELECT semesterid FROM courses WHERE courseid = $_POST[selectclass]");
    $id = mysql_fetch_row($q);
 
    $q = mysql_query("SELECT midtermdate FROM semesters WHERE semesterid = $id[0]");
@@ -105,9 +104,9 @@
    $middate = strtotime($middate[0]);
 
    if($duedate < $middate)
-	$q = mysql_query("UPDATE courses SET totalpoints = (totalpoints - $total[0]), q1points = (q1points - $total[0]) WHERE courseid = $selectclass");
+	$q = mysql_query("UPDATE courses SET totalpoints = (totalpoints - $total[0]), q1points = (q1points - $total[0]) WHERE courseid = $_POST[selectclass]");
    else
-	$q = mysql_query("UPDATE courses SET totalpoints = (totalpoints - $total[0]), q2points = (q2points - $total[0]) WHERE courseid = $selectclass");
+	$q = mysql_query("UPDATE courses SET totalpoints = (totalpoints - $total[0]), q2points = (q2points - $total[0]) WHERE courseid = $_POST[selectclass]");
 
    deleteAssignments($delete[$i]);
   }
@@ -207,7 +206,7 @@
    }
 
    // Get and display the assignments //
-   $query = mysql_query("SELECT assignmentid, title, totalpoints, assigneddate, duedate, assignmentinformation FROM assignments WHERE courseid = $selectclass ORDER BY assigneddate DESC")
+   $query = mysql_query("SELECT assignmentid, title, totalpoints, assigneddate, duedate, assignmentinformation FROM assignments WHERE courseid = $_POST[selectclass] ORDER BY assigneddate DESC")
 			or die("ManageAssignments.php: Unable to get a list of assignments - ".mysql_error());
    $row = 0;
    $actualrow = 0;
@@ -261,7 +260,7 @@ print("\n</center>
   <input type='hidden' name='page2' value='$page2'>
   <input type='hidden' name='onpage' value='$_POST[onpage]'>
   <input type='hidden' name='logout'>
-  <input type='hidden' name='selectclass' value='$selectclass' />
+  <input type='hidden' name='selectclass' value='$_POST[selectclass]' />
   <input type='hidden' name='page' value='$page'>
  </form>
  </td>

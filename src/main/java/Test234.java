@@ -24,29 +24,17 @@ public class Test234 {
         tester.clickButtonWithText("Add");
         tester.assertMatch("Add New Term");
         tester.setWorkingForm("addterm");
-        tester.setTextField("title", "<a href>t</a>");
-        tester.setTextField("startdate", "1");
-        tester.setTextField("enddate", "2");
+        tester.setTextField("title", "t<a href=>a</a>");
+        tester.setTextField("startdate", "2017-06-01");
+        tester.setTextField("enddate", "2017-06-03");
         tester.clickButtonWithText("Add Term");
-        tester.clickLinkWithText("Semesters");
-        tester.clickButtonWithText("Add");
-        tester.setWorkingForm("addsemester");
-        tester.setTextField("title", "a");
-        tester.setTextField("startdate", "1");
-        tester.setTextField("middate", "2");
-        tester.setTextField("enddate", "3");
-        tester.selectOption("term", "t");
-        tester.clickButtonWithText("Add Semester");
-        tester.assertMatch("Manage Semesters");
-        tester.assertLinkNotPresentWithExactText("t");
+        tester.assertMatch("Manage Terms");
+        tester.assertLinkNotPresentWithExactText("a");
     }
 
     @After
     public void cleanup() {
         utils.loginAsAdmin(tester);
-        tester.assertMatch("Manage Classes");
-        tester.clickLinkWithText("School");
-        tester.setWorkingForm("info");
-        restore.schoolInfo(tester);
+        restore.terms(tester);
     }
 }

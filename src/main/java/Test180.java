@@ -21,7 +21,7 @@ public class Test180 {
     public void testPage() {
         tester.setHiddenField("page", "4 '>" + utils.getMylink()
                 + "<br '");
-        addSubmitButton("//form[@name='student']", tester);
+        addSubmitButton("//form[@name='teacher']", tester);
         tester.submit();
         tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
@@ -30,7 +30,7 @@ public class Test180 {
     public void testPageTwo() {
         tester.setHiddenField("page2", "1 '>" + utils.getMylink()
                 + "<br '");
-        addSubmitButton("//form[@name='student']", tester);
+        addSubmitButton("//form[@name='teacher']", tester);
         tester.submit();
         tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }
@@ -39,7 +39,7 @@ public class Test180 {
     public void testSelectClass() {
         tester.setHiddenField("selectclass", "1 '>" + utils.getMylink()
                 + "<br '");
-        addSubmitButton("//form[@name='student']", tester);
+        addSubmitButton("//form[@name='teacher']", tester);
         tester.submit();
         tester.assertLinkNotPresentWithText(utils.getMyLinkName());
     }

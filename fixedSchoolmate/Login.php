@@ -10,7 +10,7 @@
  $message = mysql_result($query,0);
 
  $query = mysql_query("select sitetext from schoolinfo");
- $text  = htmlspecialchars(mysql_result($query,0));
+ $text  = mysql_result($query,0);
 
  print("
   <tr>

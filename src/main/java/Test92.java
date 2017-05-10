@@ -44,7 +44,7 @@ public class Test92 {
         tester.setTextField("schooladdress","''><a href=#>a</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("a");
+        tester.assertLinkNotPresentWithExactText("a");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class Test92 {
         tester.setTextField("schoolphone", "''><a href=#>a</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("a");
+        tester.assertLinkNotPresentWithExactText("a");
     }
 
     @Test
@@ -60,7 +60,7 @@ public class Test92 {
         tester.setTextField("numperiods", "''><a href=#>a</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("a");
+        tester.assertLinkNotPresentWithExactText("a");
     }
 
     @Test
@@ -68,7 +68,7 @@ public class Test92 {
         tester.setTextField("numsemesters", "''><a href=#>a</a>");
         tester.clickButtonWithText(" Update ");
         tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("a");
+        tester.assertLinkNotPresentWithExactText("a");
     }
 
     @After
