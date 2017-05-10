@@ -57,22 +57,6 @@ public class Test92 {
         tester.assertLinkNotPresentWithText("z");
     }
 
-    @Test
-    public void testNumPeriods() {
-        tester.setTextField("numperiods", "''><a href=#>z</a>");
-        tester.clickButtonWithText(" Update ");
-        tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("z");
-    }
-
-    @Test
-    public void testNumSemesters() {
-        tester.setTextField("numsemesters", "''><a href=#>z</a>");
-        tester.clickButtonWithText(" Update ");
-        tester.assertMatch("Manage School Information");
-        tester.assertLinkNotPresentWithText("z");
-    }
-
     @After
     public void cleanup() {
         utils.loginAsAdmin(tester);

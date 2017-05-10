@@ -22,7 +22,7 @@
 	$dbaddress  = 'localhost';            // location of the database
   $dbuser     = 'root';                 // databse username
 	$dbpass     = 'giallo';               // databse password
-	$dbname     = 'test_prod';           // name of the database you are using
+	$dbname     = 'test_prod';            // name of the database you are using
   ////////////////////////////////////////
 
   include("Connect.php");
