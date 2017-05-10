@@ -4,12 +4,13 @@
  $query = mysql_query("SELECT address FROM schoolinfo")
 		  or die("ManageSchoolInfo.php: Unable to retrieve School Address " . mysql_error());
 
+ //$address = mysql_result($query,0);
  $address = mysql_result($query,0);
 
  $query = mysql_query("SELECT phonenumber FROM schoolinfo")
 		  or die("ManageSchoolInfo.php: Unable to retrieve PhoneNumber " . mysql_error());
 
- $phone = htmlentities(mysql_result($query,0), ENT_QUOTES, "UTF-8");
+ $phone = mysql_result($query,0);
 
  $query = mysql_query("SELECT numsemesters FROM schoolinfo")
 		  or die("ManageSchoolInfo.php: Unable to retrieve NumSemesters " . mysql_error());

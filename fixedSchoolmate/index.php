@@ -2,10 +2,6 @@
 
  foreach ($_POST as $k => $val) {
    $_POST[$k] = htmlentities($val, ENT_QUOTES, "UTF-8");
-   //$strings = array("page", "page2", );
-   //if (in_array($k, $strings)) {
-
-   //}
  }
 
  session_start();
@@ -26,7 +22,7 @@
 	$dbaddress  = 'localhost';            // location of the database
   $dbuser     = 'root';                 // databse username
 	$dbpass     = 'giallo';               // databse password
-	$dbname     = 'schoolmate';           // name of the database you are using
+	$dbname     = 'test_prod';           // name of the database you are using
   ////////////////////////////////////////
 
   include("Connect.php");
