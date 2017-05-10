@@ -1,0 +1,75 @@
+\documentclass{sig-alternate-05-2015}
+\usepackage{subscript}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[lined,boxed,longend,ruled]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+\SetKwProg{Fn}{def}{\string:}{end}
+\SetKwFunction{CompGrid}{compute\_grid}
+\SetKwFunction{CompTop}{compute\_topics}
+\SetKwFunction{CompComArea}{compute\_intersection}
+\SetKwFunction{CompDiffArea}{compute\_difference}
+\SetKwFunction{CrDT}{create\_dataframes}
+\SetKwFunction{SeqCom}{sequential\_computation}
+\SetStartEndCondition{ }{}{}%
+\SetKw{KwTo}{in}\SetKwFor{For}{for}{\string:}{end for}%
+\newcommand{\forcond}{$df$ \KwTo{$dist\_clust\_pages$}}
+\newcommand{\forRecDiff}{$map$ \KwTo{$commonAreas$}}
+\newcommand{\forRecCom}{$map$ \KwTo{$computedMaps$}}
+\newcommand{\forNaive}{$page$ \KwTo{$pages$}}
+\newcommand{\forNaiveCom}{$cell$ \KwTo{$squares$}}
+\AlgoDontDisplayBlockMarkers\SetAlgoNoEnd\SetAlgoNoLine%
+\graphicspath{ {./imgs/} }
+
+\begin{document}
+
+\title{Security testing report}
+
+\numberofauthors{1}
+\author{
+    Gianluca Bortoli\\
+           \affaddr{DISI\,-\,University of Trento}\\
+           \affaddr{Student id: 179816}\\
+           \email{gianluca.bortoli@studenti.unitn.it}
+}
+\maketitle
+
+
+\section{Introduction}
+This work aims at performing a security analysis study on \emph{Schoolmate}.
+This web service is PHP/MySQL solution for elementary,
+middle and high schools where different type of users can manage all the needed
+information to fulfill their job.
+
+\section{Static taint analysis}
+
+\section{Test cases}
+
+\section{Source code fixes}
+
+\section{Preliminary steps}
+
+\section{Conclusions}
+
+
+%\end{document}  % This is where a 'short' article might terminate
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+
+%\bibliographystyle{abbrv}
+%\bibliography{biblio}% biblio.bib is the name of the Bibliography in this case
+
+% You must have a proper ".bib" file
+%  and remember to run:
+% latex bibtex latex latex
+% to resolve all references
+%
+% ACM needs 'a single self-contained file'!
+%
+
+\end{document}
