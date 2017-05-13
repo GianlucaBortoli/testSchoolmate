@@ -85,8 +85,8 @@ The workflow followed developing this work is the following:
         regarding Cross Site Scripting attacks (XSS).
     \item \label{classification} manually analyze all the reports to classify the vulnerabilities.
         Thus, each of them has to be categorized as \textbf{false positive},
-        \textbf{reflected XSS} or \textbf{stored XSS} (see \emph{xss\_classification.pdf
-        attachment}).
+        \textbf{reflected XSS} or \textbf{stored XSS} (see \emph{xss\_classification.pdf}
+        attachment).
     \item write all the test cases for all the true positives (TP) found (ie. the
         vulnerabilities classified either as reflected or stored XSS) in the form
         of a PoC attack against the application under test.
@@ -120,9 +120,47 @@ security PoC test cases, the security expert writes a test that is thought to fa
 if the vulnerability can be exploited and pass otherwise. Hence, in this scenario
 a failing test (and its assertion) means that the vulnerability is still present,
 while a passing one means that the vulnerability is not present any more.
+For the seek of generality all the test cases can run in any order. To achieve this,
+every test cases involving a stored XSS vulnerability has a $cleanup$ function called
+after the test case execution which removes potentially dirty data from the database.
+
+Furthermore, most of the tests perform three types of action on the web page.
+They can \emph{navigate} through the pages of the web application clicking buttons and links,
+they can \emph{input} some values in the available forms and text fields and finally they
+\emph{make assertions} about the content of the page (eg. that a malicious link is not
+present in the page).
+
+Last but not least, some of the test cases (ie. the ones involving the variable $page2$)
+required to modify the structure of the Document Object Model (DOM) of the webpage, since
+the submit buttons of the forms automatically set values for some of the form's hidden
+fields using some javascript code connected to the \emph{onClick} action.
+To overcome this issue, a new ad-hoc submit button is created inside the form
+and this one is used to perform the action instead of the original one. This functionality
+is implemented inside the \lword{\emph{src/common/utils.java}} file in the \emph{addSubmitButton}
+function.
 
 
 \section{Source code fixes}\label{fixes}
+All the vulnerabilities explained in Section~\ref{tests} are exploited in the test cases
+by means of inserting a malicious link that appears on the page. This succeeds because
+the application does not perform any kind of validation and/or sanitization on the variables
+that are shown on the page. Unfortunately, many of these variables are (or contained) input
+under the control of the user. Thus, performing sanitization steps is not an option in this
+case.
+
+The sanitization phase can be performed either before the user input is stored in the
+MySQL database or when the value is retrieved from the storage to be displayed on the
+web page. This is up to the developer and highly depends on the application structure.
+To fix the PHP source code of \emph{Schoolmate}, this work makes use of the first approach.
+Recalling that the \emph{index.php} file is the one handling every request coming from
+every other page in the application and is the one including all the other ones depending
+on the values of $page$ and $page2$.
+
+This architectural decision can be exploited in order
+to fix all the vulnerabilities affecting the entire application in a single page.
+The portion code shown below is the one responsible for the sanitization step
+of all the POST parameters reaching the application.
+
 \begin{lstlisting}[frame=single, caption={Fixing all the vulnerabilities in index.php}]
 <?php
 foreach ($_POST as $k => $val) {
@@ -133,12 +171,48 @@ foreach ($_POST as $k => $val) {
 ?>
 \end{lstlisting}
 
+The decision to apply the \textbf{htmlentities} function to all the items in the POST array allows
+to eliminate the possibility to modify the page's DOM by means of malicious tags in the input
+text fields that are later printed on the page. This function converts all the characters
+that has a special meaning in HTML to its ``safe'' encoded version. The optional parameter
+\emph{ENT\_QUOTES} is used to convert both double and single quotes, while the \emph{UTF-8}
+specities the encoding to be used when converting the characters.
+Finally, the addition of this code snippet as the first lines of the $index.php$ file allows to
+fix both the stored and the reflected XSS vulnerabilities in $Schoolmate$, since only the XSS
+vulnerabilities are of interest for this work.
 
-\section{Testing outcomes}\label{outcomes}
+
+\section{Conclusions}\label{outcomes}
+The test cases developed for this work and explained in Section~\ref{tests} covers all the
+Pixy vulnerabilities classified as true positives. All the tests failed when the original code
+of $Schoolmate$ is used to run the application, while they all successfully pass after the
+fixes explained in Section~\ref{fixes}.
+
+In order to check if the fixed code does not introduce any new vulnerability and does not contain
+any vulnerability at all, the Pixy static analyzer is run again on $Schoolmate$.
+After this final step, Pixy revealed the same vulnerabilities as if the code is still vulnerable.
+All the PoC tests successfully pass after patching the application, but it is possible to claim that
+all the reports created by Pixy are false positives. This is be due to the fact that static anaysis
+tools perform an overestimation of the paths that can be followed during an actual execution
+of the application\footnote{As explained in Section~\ref{tests}, this is the reason why an initial
+dinstinction between TP and FP has to be done in advance before implementing the PoC attacks.}.
+Thus, based on the outcome of the test suite, it is possible to say that the vulnerabilities are
+fixed.
+
 
 \section{Preliminary steps}\label{steps}
-
-\section{Conclusions}\label{conclusions}
+Some preliminary steps has to be followed in order to run all the test cases:
+\begin{enumerate}
+    \item install and run a webserver (eg. Apache), PHP and MySQL.
+    \item edit the $\$dbuser$ and $\$dbpass$ values in the $index.php$ file in order
+        to match the ones of the MySQL instance to be used.
+    \item copy the $Schoolmate$ source files inside the webserver directory.
+    \item import the $dbDump.sql$ script in the MySQL instance. It takes care of creating
+        the a database with the right name and populating it with some initial values.
+        All the queries on the database should succeed.
+\end{enumerate}
+After all the abovementioned steps are completed successfully, $Schoolmate$ is up and running
+and the test suite can be run.
 
 
 %\end{document}  % This is where a 'short' article might terminate
