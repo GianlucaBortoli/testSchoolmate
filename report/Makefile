@@ -10,4 +10,4 @@ all:
 	$(BUILDTEX)
 
 clean:
-	rm -f *.swp *.aux *.bbl *.blg *.log *.out *.toc *.pdf *~
+	rm -f *.swp *.aux *.bbl *.blg *.log *.out *.toc report.pdf *~
