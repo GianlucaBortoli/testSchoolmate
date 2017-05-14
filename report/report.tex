@@ -24,7 +24,6 @@
 \newcommand{\forNaiveCom}{$cell$ \KwTo{$squares$}}
 \newcommand\lword[1]{\leavevmode\nobreak\hskip0pt plus\linewidth\penalty50\hskip0pt plus-\linewidth\nobreak#1}
 \AlgoDontDisplayBlockMarkers\SetAlgoNoEnd\SetAlgoNoLine%
-\graphicspath{ {./imgs/} }
 
 % listings PHP code color
 \definecolor{dkgreen}{rgb}{0,.6,0}
@@ -46,7 +45,7 @@
 
 \begin{document}
 
-\title{Security testing report}
+\title{Security testing project report}
 
 \numberofauthors{1}
 \author{
@@ -60,64 +59,78 @@
 
 \section{Introduction}
 This work aims at performing a security analysis study on \emph{Schoolmate}.
-This web service is PHP/MySQL solution for elementary,
+This web application is PHP/MySQL solution for elementary,
 middle and high schools where different type of users can manage all the needed
-information to fulfill their job.
+information to fulfill their everyday tasks.
 
-This report is structured as follows. Section \ref{tests} describes the naming
-convention used for the test cases and how they are structured into packages.
-Section \ref{fixes} describes the vulnerabilities that have been found on the
-application, their root causes and how to fix them. Section \ref{outcomes} reports
-the results of the proof-of-concept (PoC) attacks described in Section \ref{tests}.
-Finally, Section \ref{steps} depicts the steps that have to be taken in order to
-be able to run all the tests from scratch, while Section \ref{conclusions} gives
-a general evaluation of the whole work.
+This report is structured as follows. Section~\ref{tests} describes the naming
+convention used for the test cases, how they are structured into packages and shows
+the vulnerabilities that have been found on the subject application.
+Section~\ref{fixes} depicts how to fix these security braches. Section~\ref{outcomes}
+reports the outcomes of the Proof-of-Concept (PoC) attacks described in Section~\ref{tests}.
+Finally, Section~\ref{steps} depicts the steps that have to be taken in order to
+be able to run all the tests from scratch.
 
 
 \section{Security test cases}\label{tests}
-Pixy is a scanner static code analysis tools that scans PHP applications for
-security vulnerabilities. This software is used in order to spot the possible
-vulnerabilities in \emph{Schoolmate}, the subject web application.
+This security review uses a static analysis tool to scan the application's source code
+in order to spot security vulnerabilities.
+\emph{Pixy} is one of them and it scans PHP applications for security vulnerabilities.
+This software is used in order to spot all the possible vulnerabilities in \emph{Schoolmate},
+the subject web application.
 
-The workflow followed developing this work is the following:
+The workflow followed to develop this work is the following:
 \begin{enumerate}
-    \item run Pixy on the application code to produce vulnerability reports
+    \item \label{pixy} Pixy is run on the application source code to produce vulnerability reports
         regarding Cross Site Scripting attacks (XSS).
-    \item \label{classification} manually analyze all the reports to classify the vulnerabilities.
-        Thus, each of them has to be categorized as \textbf{false positive},
-        \textbf{reflected XSS} or \textbf{stored XSS} (see \emph{xss\_classification.pdf}
-        attachment).
-    \item write all the test cases for all the true positives (TP) found (ie. the
-        vulnerabilities classified either as reflected or stored XSS) in the form
+    \item \label{classification} all the reports are manually analyzed to perform a first
+        classification of the resulting vulnerabilities. Thus, each of them has to be
+        categorized either as \textbf{false positive}, \textbf{reflected XSS} or
+        \textbf{stored XSS} (please refer to the \lword{\emph{xss\_classification.pdf}}
+        attachment for a full description of all the vulnerabilities found in step \ref{pixy}).
+    \item a test cases for all the true positives (TP)\footnote{A single test can cover
+        either a reflected or a stored XSS vulnerability. Furthermore, each Pixy report may
+        include more than one vulnerability for each report.} is written in the form
         of a PoC attack against the application under test.
-    \item check that every test case fails on the bugged application to demonstrate
-        \emph{Schoolmate} has such security vulnerabilities.
-    \item \label{fix} modify the \emph{Schoolmate}'s PHP code to fix the vulnerabilities found
-        in step \ref{classification}.
-    \item run again the test suite and check all the tests pass, meaning that
-        the PoC attack implemented in each test case is no longer possible.
-    \item run again Pixy on the fixed application source code to check the
-        vulnerabilities are really fixed and making sure step \ref{fix} did not
-        introduce any security breach.
+    \item every test case is checked to be failing on the bugged application to demonstrate
+        \emph{Schoolmate} has such security vulnerabilities and that they can be exploited.
+    \item \label{fix} the \emph{Schoolmate}'s PHP code is modified to fix the vulnerabilities
+        found in step \ref{classification}.
+    \item the whole test suite is run again to check all the tests pass. This means that
+        the PoC attack implemented in each test case is no longer possible after the application
+        is fixed.
+    \item Pixy is run again on the new application source code to check the
+        vulnerabilities are really fixed and to make sure step \ref{fix} did not
+        introduce any additional security breach.
 \end{enumerate}
+
+The most effective way to implement a security test case for a XSS vulnerability is to
+be able to inject some malicious code inside the HTML of the page that is shown to the user.
+All the test implemented in this work inject a \emph{malicious link} and then checks
+whether it is found on the target web page.
+
+\subsection{Test case code structure}
 The test suite developed to demonstrate that the application under revision has
 security concerns makes use of JWebUnit, a Java-based testing framework for web
-applications. Every Pixy report is identified by a number and may contain multiple
-vulnerabilities. The test suite's source code is structured as follows:
+applications.
+
+The test suite's source code is structured as follows:
 \begin{itemize}
     \item the \textbf{src/main/java} folder contains a Java file for each Pixy report which
-        has at least one TP. The test-case Java file naming follows the convention
-        \lword{\emph{Test<PixyReportNumber>.java}} so that it is possible to easily match the test
-        case with its Pixy report counterpart.
+        has at least one TP. The test-case file naming follows the convention
+        \lword{\emph{Test<pixy\_report\_number>.java}} so that it is possible to easily match the test
+        case with its Pixy report counterpart\footnote{This is done to simplify the revision work,
+        since Pixy identifies every report with a number in its filename.}.
     \item the \textbf{src/main/java/common} folder contains three packages that implement
         utility functions that are available to all the test cases. These functions
         allows not to soil the actual test case implementation, separating all the
         sequences of operations that has to be done in many tests in order to navigate
-        the web page depending on the situation.
+        the web page depending on the situation. In this way, it is possible to maximize
+        the code reuse across multiple test cases and to better modularize the project.
 \end{itemize}
 A noteworthy aspect is how tests' assertions are written. When dealing with
 security PoC test cases, the security expert writes a test that is thought to fail
-if the vulnerability can be exploited and pass otherwise. Hence, in this scenario
+if the vulnerability can be exploited and it should pass otherwise. Hence, in this scenario
 a failing test (and its assertion) means that the vulnerability is still present,
 while a passing one means that the vulnerability is not present any more.
 For the seek of generality all the test cases can run in any order. To achieve this,
@@ -125,9 +138,9 @@ every test cases involving a stored XSS vulnerability has a $cleanup$ function c
 after the test case execution which removes potentially dirty data from the database.
 
 Furthermore, most of the tests perform three types of action on the web page.
-They can \emph{navigate} through the pages of the web application clicking buttons and links,
+They can \emph{navigate} through the pages of the web application clicking buttons and/or links,
 they can \emph{input} some values in the available forms and text fields and finally they
-\emph{make assertions} about the content of the page (eg. that a malicious link is not
+\emph{make assertions} about the content of the page (eg. that the malicious link is not
 present in the page).
 
 Last but not least, some of the test cases (ie. the ones involving the variable $page2$)
@@ -136,15 +149,15 @@ the submit buttons of the forms automatically set values for some of the form's 
 fields using some javascript code connected to the \emph{onClick} action.
 To overcome this issue, a new ad-hoc submit button is created inside the form
 and this one is used to perform the action instead of the original one. This functionality
-is implemented inside the \lword{\emph{src/common/utils.java}} file in the \emph{addSubmitButton}
+is implemented inside the \lword{\emph{src/common/utils.java}} file with the \emph{addSubmitButton}
 function.
 
 
 \section{Source code fixes}\label{fixes}
 All the vulnerabilities explained in Section~\ref{tests} are exploited in the test cases
-by means of inserting a malicious link that appears on the page. This succeeds because
+inserting a malicious link that appears on the page. This succeeds because
 the application does not perform any kind of validation and/or sanitization on the variables
-that are shown on the page. Unfortunately, many of these variables are (or contained) input
+that are shown on the page. Unfortunately, many of these variables are (or contain) input
 under the control of the user. Thus, performing sanitization steps is not an option in this
 case.
 
@@ -152,56 +165,59 @@ The sanitization phase can be performed either before the user input is stored i
 MySQL database or when the value is retrieved from the storage to be displayed on the
 web page. This is up to the developer and highly depends on the application structure.
 To fix the PHP source code of \emph{Schoolmate}, this work makes use of the first approach.
-Recalling that the \emph{index.php} file is the one handling every request coming from
-every other page in the application and is the one including all the other ones depending
-on the values of $page$ and $page2$.
 
+The \emph{index.php} file is the one responsible for handling every request coming from
+every other page in the application and it is the one including all the other ones depending
+on the values of $page$ and $page2$.
 This architectural decision can be exploited in order
-to fix all the vulnerabilities affecting the entire application in a single page.
-The portion code shown below is the one responsible for the sanitization step
+to fix all the vulnerabilities affecting the entire application in a single point.
+The portion code shown below performs the sanitization step
 of all the POST parameters reaching the application.
 
 \begin{lstlisting}[frame=single, caption={Fixing all the vulnerabilities in index.php}]
 <?php
 foreach ($_POST as $k => $val) {
  $_POST[$k] =
-    htmlentities($val, ENT_QUOTES, "UTF-8");
+    htmlentities($val,ENT_QUOTES,"UTF-8");
 }
 ...
 ?>
 \end{lstlisting}
 
 The decision to apply the \textbf{htmlentities} function to all the items in the POST array allows
-to eliminate the possibility to modify the page's DOM by means of malicious tags in the input
-text fields that are later printed on the page. This function converts all the characters
+to eliminate the possibility to modify the page's content by means of malicious tags in the input
+text fields that are later printed on the page, since the DOM is modified my the attacker.
+This function converts all the characters
 that has a special meaning in HTML to its ``safe'' encoded version. The optional parameter
 \emph{ENT\_QUOTES} is used to convert both double and single quotes, while the \emph{UTF-8}
-specities the encoding to be used when converting the characters.
-Finally, the addition of this code snippet as the first lines of the $index.php$ file allows to
-fix both the stored and the reflected XSS vulnerabilities in $Schoolmate$, since only the XSS
-vulnerabilities are of interest for this work.
+specities the encoding to be used when converting the characters.\\
+Finally, the addition of this code snippet at the very beginning of the $index.php$ file allows to
+fix both all the stored and reflected XSS vulnerabilities in $Schoolmate$, since these were the
+only vulnerabilities of interest in this security revision.
 
 
 \section{Conclusions}\label{outcomes}
 The test cases developed for this work and explained in Section~\ref{tests} covers all the
-Pixy vulnerabilities classified as true positives. All the tests failed when the original code
-of $Schoolmate$ is used to run the application, while they all successfully pass after the
-fixes explained in Section~\ref{fixes}.
+vulnerabilities found by Pixy which are classified as true positives. All the tests failed when
+the original code of $Schoolmate$ is deployed on the webserver, while they all successfully pass
+once the fixes explained in Section~\ref{fixes} are applied.
 
-In order to check if the fixed code does not introduce any new vulnerability and does not contain
-any vulnerability at all, the Pixy static analyzer is run again on $Schoolmate$.
-After this final step, Pixy revealed the same vulnerabilities as if the code is still vulnerable.
-All the PoC tests successfully pass after patching the application, but it is possible to claim that
-all the reports created by Pixy are false positives. This is be due to the fact that static anaysis
+In order to check that the patch does not introduce any new vulnerability and fixes the old ones,
+the static analysis tool is run again on the fixed version of $Schoolmate$.\\
+After this final step, Pixy revealed the same vulnerabilities discussed in Section~\ref{tests}.
+Despite the outcome of the tool, all the PoC tests successfully pass after patching the application.
+Hence, it is possible to claim that all the reports created by Pixy are false positives.
+This is due to the fact that static anaysis
 tools perform an overestimation of the paths that can be followed during an actual execution
 of the application\footnote{As explained in Section~\ref{tests}, this is the reason why an initial
 dinstinction between TP and FP has to be done in advance before implementing the PoC attacks.}.
-Thus, based on the outcome of the test suite, it is possible to say that the vulnerabilities are
+Thus, based on the outcome of the test suite, it is possible to state that the vulnerabilities are
 fixed.
 
 
 \section{Preliminary steps}\label{steps}
-Some preliminary steps has to be followed in order to run all the test cases:
+In order to run all the test cases, the following preliminary steps has to be followed
+to fullfil the application's requirements:
 \begin{enumerate}
     \item install and run a webserver (eg. Apache), PHP and MySQL.
     \item edit the $\$dbuser$ and $\$dbpass$ values in the $index.php$ file in order
@@ -210,8 +226,11 @@ Some preliminary steps has to be followed in order to run all the test cases:
     \item import the $dbDump.sql$ script in the MySQL instance. It takes care of creating
         the a database with the right name and populating it with some initial values.
         All the queries on the database should succeed.
+    \item import the tests' source code as a Maven project in your IDE so that all the
+        needed dependencies can be automatically downloaded from the remote repository
+        and included in the project.
 \end{enumerate}
-After all the abovementioned steps are completed successfully, $Schoolmate$ is up and running
+After all the abovementioned steps are completed successfully, Schoolmate is up and running
 and the test suite can be run.
 
 
@@ -231,5 +250,5 @@ and the test suite can be run.
 %
 % ACM needs 'a single self-contained file'!
 %
-
 \end{document}
+
