@@ -45,7 +45,7 @@
 
 \begin{document}
 
-\title{Security testing project report}
+\title{Security Testing Report of Schoolmate}
 
 \numberofauthors{1}
 \author{
@@ -59,7 +59,7 @@
 
 \section{Introduction}
 This work aims at performing a security analysis study on \emph{Schoolmate}.
-This web application is PHP/MySQL solution for elementary,
+This web application is a PHP/MySQL solution for elementary,
 middle and high schools where different type of users can manage all the needed
 information to fulfill their everyday tasks.
 
@@ -75,7 +75,7 @@ be able to run all the tests from scratch.
 \section{Security test cases}\label{tests}
 This security review uses a static analysis tool to scan the application's source code
 in order to spot security vulnerabilities.
-\emph{Pixy} is one of them and it scans PHP applications for security vulnerabilities.
+\emph{Pixy} is able to scan PHP applications to find security problems at the source code level.
 This software is used in order to spot all the possible vulnerabilities in \emph{Schoolmate},
 the subject web application.
 
@@ -106,7 +106,7 @@ The workflow followed to develop this work is the following:
 
 The most effective way to implement a security test case for a XSS vulnerability is to
 be able to inject some malicious code inside the HTML of the page that is shown to the user.
-All the test implemented in this work inject a \emph{malicious link} and then checks
+All the tests implemented in this work inject a \emph{malicious link} and then checks
 whether it is found on the target web page.
 
 \subsection{Test case code structure}
@@ -117,15 +117,15 @@ applications.
 The test suite's source code is structured as follows:
 \begin{itemize}
     \item the \textbf{src/main/java} folder contains a Java file for each Pixy report which
-        has at least one TP. The test-case file naming follows the convention
+        has at least one TP. The test file naming follows the convention
         \lword{\emph{Test<pixy\_report\_number>.java}} so that it is possible to easily match the test
         case with its Pixy report counterpart\footnote{This is done to simplify the revision work,
         since Pixy identifies every report with a number in its filename.}.
-    \item the \textbf{src/main/java/common} folder contains three packages that implement
+    \item the \textbf{src/main/java/common} folder contains three classes that implement
         utility functions that are available to all the test cases. These functions
         allows not to soil the actual test case implementation, separating all the
-        sequences of operations that has to be done in many tests in order to navigate
-        the web page depending on the situation. In this way, it is possible to maximize
+        sequences of operations that has to be repeated in many tests in order to navigate
+        the web page depending on the scenario. In this way, it is possible to maximize
         the code reuse across multiple test cases and to better modularize the project.
 \end{itemize}
 A noteworthy aspect is how tests' assertions are written. When dealing with
@@ -133,7 +133,8 @@ security PoC test cases, the security expert writes a test that is thought to fa
 if the vulnerability can be exploited and it should pass otherwise. Hence, in this scenario
 a failing test (and its assertion) means that the vulnerability is still present,
 while a passing one means that the vulnerability is not present any more.
-For the seek of generality all the test cases can run in any order. To achieve this,
+
+For the seek of generality, all the test cases can run in any order. To achieve this,
 every test cases involving a stored XSS vulnerability has a $cleanup$ function called
 after the test case execution which removes potentially dirty data from the database.
 
@@ -148,7 +149,7 @@ required to modify the structure of the Document Object Model (DOM) of the webpa
 the submit buttons of the forms automatically set values for some of the form's hidden
 fields using some javascript code connected to the \emph{onClick} action.
 To overcome this issue, a new ad-hoc submit button is created inside the form
-and this one is used to perform the action instead of the original one. This functionality
+and it is used to perform the action on behalf of the original one. This functionality
 is implemented inside the \lword{\emph{src/common/utils.java}} file with the \emph{addSubmitButton}
 function.
 
@@ -161,7 +162,7 @@ that are shown on the page. Unfortunately, many of these variables are (or conta
 under the control of the user. Thus, performing sanitization steps is not an option in this
 case.
 
-The sanitization phase can be performed either before the user input is stored in the
+The sanitization phase can be performed either before the user input is stored into the
 MySQL database or when the value is retrieved from the storage to be displayed on the
 web page. This is up to the developer and highly depends on the application structure.
 To fix the PHP source code of \emph{Schoolmate}, this work makes use of the first approach.
@@ -184,11 +185,14 @@ foreach ($_POST as $k => $val) {
 ?>
 \end{lstlisting}
 
-The decision to apply the \textbf{htmlentities} function to all the items in the POST array allows
-to eliminate the possibility to modify the page's content by means of malicious tags in the input
-text fields that are later printed on the page, since the DOM is modified my the attacker.
-This function converts all the characters
-that has a special meaning in HTML to its ``safe'' encoded version. The optional parameter
+The decision to apply the \textbf{htmlentities}\footnote{The \emph{htmlentities} function is preferred
+to the \emph{htmlspecialchars} since the first one is a ``stronger'' version of the second. More specifically,
+the \emph{htmlentities} encodes every character passed as argument and not only the ones that have a special
+meaning in HTML.} function to all the items in the POST array allows
+to eliminate the possibility to modify the page's content by means of proper malicious tags in the input
+text fields that are later printed on the page. This countermeasure prevents the attaker from being able to
+alter the DOM structure of the web page. This function converts all the characters, including the ones
+that has a special meaning in HTML, to its ``safe'' encoded version. The optional parameter
 \emph{ENT\_QUOTES} is used to convert both double and single quotes, while the \emph{UTF-8}
 specities the encoding to be used when converting the characters.\\
 Finally, the addition of this code snippet at the very beginning of the $index.php$ file allows to
@@ -197,7 +201,7 @@ only vulnerabilities of interest in this security revision.
 
 
 \section{Conclusions}\label{outcomes}
-The test cases developed for this work and explained in Section~\ref{tests} covers all the
+The test cases developed for this work and explained in Section~\ref{tests} exploits all the
 vulnerabilities found by Pixy which are classified as true positives. All the tests failed when
 the original code of $Schoolmate$ is deployed on the webserver, while they all successfully pass
 once the fixes explained in Section~\ref{fixes} are applied.
@@ -220,11 +224,12 @@ In order to run all the test cases, the following preliminary steps has to be fo
 to fullfil the application's requirements:
 \begin{enumerate}
     \item install and run a webserver (eg. Apache), PHP and MySQL.
-    \item edit the $\$dbuser$ and $\$dbpass$ values in the $index.php$ file in order
-        to match the ones of the MySQL instance to be used.
-    \item copy the $Schoolmate$ source files inside the webserver directory.
-    \item import the $dbDump.sql$ script in the MySQL instance. It takes care of creating
-        the a database with the right name and populating it with some initial values.
+    \item edit the $\$dbuser$, $\$dbpass$ and $\$dbaddress$ variables inside the $index.php$ file in
+        order to match the parameters of the MySQL instance to be used. The right $\$dbname$ is set
+        by the SQL script described in step number \ref{sqlscript}.
+    \item copy the Schoolmate source files inside the webserver directory.
+    \item \label{sqlscript} import the $dbDump.sql$ script into the MySQL instance. It takes care of
+        creating the a database with the right name and populating it with some initial values.
         All the queries on the database should succeed.
     \item import the tests' source code as a Maven project in your IDE so that all the
         needed dependencies can be automatically downloaded from the remote repository
