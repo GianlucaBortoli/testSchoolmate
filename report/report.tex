@@ -226,12 +226,14 @@ to fullfil the application's requirements:
 \begin{enumerate}
     \item install and run a webserver (eg. Apache), PHP and MySQL.
     \item edit the $\$dbuser$, $\$dbpass$ and $\$dbaddress$ variables inside the $index.php$ file in
-        order to match the parameters of the MySQL instance to be used. The right $\$dbname$ is set
-        by the SQL script described in step number \ref{sqlscript}.
+        order to match the parameters of the MySQL instance to be used. Moreover, the right $\$dbname$ has to be set
+        after importing the SQL script as described in step number \ref{sqlscript}.
     \item copy the Schoolmate source files inside the webserver directory.
-    \item \label{sqlscript} import the $dbDump.sql$ script into the MySQL instance. It takes care of
-        creating the a database with the right name and populating it with some initial values.
-        All the queries on the database should succeed.
+    \item \label{sqlscript} create a database with a name of your choiche inside your MySQL instance,
+        select it via the $USE$ statement and import the $dbDump.sql$ script. The $\$dbname$ variable
+        inside the $index.php$ file has to match the database name where this script is run\footnote{The
+        $index.php$ file uses a default database called $test\_prod$.}. The queries take care of populating
+        the database with some initial values. All the queries should succeed.
     \item import the tests' source code as a Maven project in your IDE so that all the
         needed dependencies can be automatically downloaded from the remote repository
         and included in the project.
