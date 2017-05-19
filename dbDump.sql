@@ -15,11 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- init production db
-DROP DATABASE IF EXISTS `test_prod`;
-CREATE DATABASE `test_prod`;
-USE `test_prod`;
-
 --
 -- Table structure for table `adminstaff`
 --
